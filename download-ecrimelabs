@@ -1,9 +1,9 @@
 #!/bin/bash
 source /etc/eCrimeLabs/eCrimeLabscfg
 
-for i in $IP $PROTOCOL $APIKEY $RULE_PATH; do
+for i in $BROKER $APIKEY $RULE_PATH; do
 	if [ $i == "" ]; then
-		echo $i is null!
+		echo "${i} is null!""
 		exit 0
 	fi
 done
@@ -11,7 +11,7 @@ done
 # if NIDS_RULES enabled, then get NIDS rules
 if [[ $NIDS_RULES == "yes" ]];then
 	# get NIDS rules
-	wget -q --header="Authorization: $APIKEY"  $PROTOCOL://$IP/events/nids/$ENGINE/download -O $RULE_PATH
+	wget -q --header="Authorization: $APIKEY"  ${BROKER}/events/nids/$ENGINE/download -O $RULE_PATH
 	# Set correct perms
 	chown sguil:sguil $RULE_PATH
 	chmod 644 $RULE_PATH
