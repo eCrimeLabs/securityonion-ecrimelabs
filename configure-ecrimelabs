@@ -1,0 +1,41 @@
+#!/bin/bash
+source /etc/misp/mispcfg
+
+ENGINE=`grep ENGINE /etc/nsm/securityonion.conf | cut -d= -f2`
+
+# Run download script
+/usr/sbin/download-misp
+
+echo ""
+echo "Configuring Pulledpork..."
+echo ""
+
+PP_CONF="/etc/nsm/pulledpork/pulledpork.conf"
+
+if [ "$ENGINE" = "snort" ]; then
+	sed -i "s|^local_rules.*|local_rules=/etc/nsm/rules/local.rules,$RULE_PATH|" $PP_CONF
+elif [ "$ENGINE" = "suricata" ];then
+	sed -i "s|^local_rules.*|local_rules=/etc/nsm/rules/local.rules,/etc/nsm/rules/decoder-events.rules,/etc/nsm/rules/stream-events.rules,/etc/nsm/rules/http-events.rules,/etc/nsm/rules/smtp-events.rules,$RULE_PATH|" $PP_CONF
+fi
+
+if [ -f /etc/cron.d/download-misp ]; then
+	:
+else
+	touch /etc/cron.d/download-misp
+	cat << EOF > /etc/cron.d/download-misp
+# /etc/cron.d/download-misp
+#
+# crontab entry to update MISP IDS rules
+
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+01 6    * * *   root    /usr/sbin/download-misp > /dev/null 2>&1
+EOF
+fi	
+
+echo "If manually running this script, ensure that /usr/sbin/rule-update is run afterwards."
+
+echo ""
+echo "That's all folks!"
+echo ""
