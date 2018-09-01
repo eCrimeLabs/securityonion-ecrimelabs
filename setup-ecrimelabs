@@ -21,14 +21,14 @@ is_ip() {
 }
 
 echo
-header "Welcome to the Security Onion MISP Import Wizard!"
+header "Welcome to the Security Onion eCrimeLabs Import Wizard!"
 echo
 
 # Get responses
 echo
 VALID_IP="no"
 while [ "$VALID_IP" = "no" ]; do
-        echo "What is the ip address of your MISP instance? [x.x.x.x]"
+        echo "What is the ip address of your eCrimeLabs instance? [x.x.x.x]"
 	read ip
 	is_ip $ip && VALID_IP="yes"
 done
@@ -52,34 +52,34 @@ else
 		if [ $protocol = "http" ] || [ $protocol = "https" ] ; then
 			PROTOCOL_SET="yes"
 		else
-			echo "Please choose a valid protocol! ('http' or 'https')" 
+			echo "Please choose a valid protocol! ('http' or 'https')"
 		fi
 	done
-	
+
 fi
 echo
 
 echo
-echo "Please provide an API key to access a MISP instance."
-echo 
+echo "Please provide an API key to access a eCrimeLabs instance."
+echo
 echo "You can find this information by navigating to:"
-echo "https://your-misp-instance/events/automation"
+echo "https://your-eCrimeLabs-instance/events/automation"
 read -s apikey
 echo
 
 echo
 echo "Would you like to configure NIDS rules for Snort/Suricata?"
-echo 
+echo
 echo "Is so, please type YES below and press the ENTER key:"
-echo 
+echo
 read nids_rules
 echo
 
 echo
 echo "Would you like to configure Intel data for Bro?"
-echo 
+echo
 echo "Is so, please type YES below and press the ENTER key:"
-echo 
+echo
 read intel
 echo
 
@@ -92,11 +92,11 @@ echo "To confirm, we will configure the following:"
 echo
 
 if [ $nids_rules = "YES" ]; then
-echo "NIDS Rules: /etc/nsm/rules/local.misp.rules"
+echo "NIDS Rules: /etc/nsm/rules/local.eCrimeLabs.rules"
 fi
 
 if [ $intel = "YES" ]; then
-echo "Bro Intel: /opt/bro/share/bro/intel/misp-intel.dat"
+echo "Bro Intel: /opt/bro/share/bro/intel/eCrimeLabs-intel.dat"
 fi
 echo "IP: $ip"
 echo "Protocol: $protocol"
@@ -114,30 +114,30 @@ if [ $confirm != "YES" ]; then
 	exit 0
 else
         #echo "Cloning GH Repo..."
-	#git clone https://github.com/weslambert/securityonion-misp
-	MISPCFG="/etc/misp//mispcfg"
-	mkdir -p /etc/misp
-        cp securityonion-misp/mispcfg $MISPCFG
-	
+	#git clone https://github.com/weslambert/securityonion-eCrimeLabs
+	eCrimeLabsCFG="/etc/eCrimeLabs//eCrimeLabscfg"
+	mkdir -p /etc/eCrimeLabs
+        cp securityonion-eCrimeLabs/eCrimeLabscfg $eCrimeLabsCFG
+
 	echo "Configuring..."
-	
-	# Configure download-misp with appropriate values
-	sed -i "s/^IP.*/IP=\"$ip\"/" $MISPCFG
-	sed -i "s/^PROTOCOL.*/PROTOCOL=\"$protocol\"/" $MISPCFG
-	sed -i "s/^APIKEY.*/APIKEY=\"$apikey\"/" $MISPCFG
-	sed -i "s/^INTEL=.*/INTEL=\"${intel,,}\"/" $MISPCFG
-	sed -i "s/^NIDS_RULES.*/NIDS_RULES=\"${nids_rules,,}\"/" $MISPCFG
-	
-	# Copy misp scripts into place
-	cp securityonion-misp/download-misp /usr/sbin/download-misp
-	cp securityonion-misp/configure-misp /usr/sbin/configure-misp
-	
+
+	# Configure download-eCrimeLabs with appropriate values
+	sed -i "s/^IP.*/IP=\"$ip\"/" $eCrimeLabsCFG
+	sed -i "s/^PROTOCOL.*/PROTOCOL=\"$protocol\"/" $eCrimeLabsCFG
+	sed -i "s/^APIKEY.*/APIKEY=\"$apikey\"/" $eCrimeLabsCFG
+	sed -i "s/^INTEL=.*/INTEL=\"${intel,,}\"/" $eCrimeLabsCFG
+	sed -i "s/^NIDS_RULES.*/NIDS_RULES=\"${nids_rules,,}\"/" $eCrimeLabsCFG
+
+	# Copy eCrimeLabs scripts into place
+	cp securityonion-eCrimeLabs/download-eCrimeLabs /usr/sbin/download-eCrimeLabs
+	cp securityonion-eCrimeLabs/configure-eCrimeLabs /usr/sbin/configure-eCrimeLabs
+
 	# Set perms
-	chmod +x /usr/sbin/download-misp
-        chmod +x /usr/sbin/configure-misp
-	
+	chmod +x /usr/sbin/download-eCrimeLabs
+        chmod +x /usr/sbin/configure-eCrimeLabs
+
 	echo
-	# Run configuration script 
-	/usr/sbin/configure-misp	
+	# Run configuration script
+	/usr/sbin/configure-eCrimeLabs
 	echo
 fi

@@ -3,6 +3,5 @@ PROTOCOL=""
 APIKEY=""
 INTEL=""
 NIDS_RULES=""
-INTEL_PATH="/opt/bro/share/bro/intel/misp-intel.dat"
-RULE_PATH="/etc/nsm/rules/local.misp.rules"
-
+INTEL_PATH="/opt/bro/share/bro/intel/eCrimeLabs-intel.dat"
+RULE_PATH="/etc/nsm/rules/local.eCrimeLabs.rules"
