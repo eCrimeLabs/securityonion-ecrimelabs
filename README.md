@@ -1,4 +1,4 @@
-# securityonion-ecrimelabs
+# SecurityOnion-eCrimeLabs
 Implementation of information from MISP through the eCrimeLabs API and into SecurityOnion
 
 **Prerequisites:**
