@@ -1,10 +1,10 @@
 #!/bin/bash
-source /etc/eCrimeLabs/eCrimeLabscfg
+source /etc/ecrimelabs/ecrimelabscfg
 
 ENGINE=`grep ENGINE /etc/nsm/securityonion.conf | cut -d= -f2`
 
 # Run download script
-/usr/sbin/download-eCrimeLabs
+/usr/sbin/download-ecrimelabs
 
 echo ""
 echo "Configuring Pulledpork..."
