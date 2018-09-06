@@ -1,5 +1,5 @@
 #!/bin/bash
-source /etc/eCrimeLabs/eCrimeLabscfg
+source /etc/ecrimelabs/ecrimelabscfg
 
 for i in ${BROKER} ${APIKEY} ${RULE_PATH_INCIDENT} ${RULE_PATH_FEED} ${FEED_AGE} ${FEED_TYPE} ${NIDS_RULES} ${INTEL} ${INTEL_PATH}; do
 	if [ $i == "" ]; then
@@ -26,14 +26,14 @@ fi
 if [[ $INTEL == "YES" ]];then
         wget -q ${BROKER}/feed/bro/${APIKEY} -O $INTEL_PATH
 	LOAD_BRO="/opt/bro/share/bro/intel/__load__.bro"
-	if grep -q eCrimeLabs $LOAD_BRO; then
+	if grep -q ecrimelabs $LOAD_BRO; then
         	# Already appended to list of intel files
         	echo "Already configured!"
         	:
 	else
         	# Add eCrimeLabs-intel to list of intel files
         	sed -i 's#.*"/opt/bro/share/bro/intel/intel.dat"#        "/opt/bro/share/bro/intel/intel.dat",#' $LOAD_BRO
-        	sed -i '/.*intel.dat",/a \ \ \ \ \ \ \ \ "\/opt\/bro\/share\/bro\/intel\/eCrimeLabs-intel.dat\"' $LOAD_BRO
+        	sed -i '/.*intel.dat",/a \ \ \ \ \ \ \ \ "\/opt\/bro\/share\/bro\/intel\/ecrimelabs-intel.dat\"' $LOAD_BRO
 	fi
 	nsm_sensor_ps-restart --only-bro
 else

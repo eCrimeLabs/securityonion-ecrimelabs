@@ -18,12 +18,12 @@ elif [ "${ENGINE}" = "suricata" ];then
 	sed -i "s|^local_rules.*|local_rules=/etc/nsm/rules/local.rules,/etc/nsm/rules/decoder-events.rules,/etc/nsm/rules/stream-events.rules,/etc/nsm/rules/http-events.rules,/etc/nsm/rules/smtp-events.rules,${RULE_PATH_FEED},${RULE_PATH_INCIDENT}|" ${PP_CONF}
 fi
 
-if [ -f /etc/cron.d/download-eCrimeLabs ]; then
+if [ -f /etc/cron.d/download-ecrimelabs ]; then
 	:
 else
-	touch /etc/cron.d/download-eCrimeLabs
-	cat << EOF > /etc/cron.d/download-eCrimeLabs
-# /etc/cron.d/download-eCrimeLabs
+	touch /etc/cron.d/download-ecrimelabs
+	cat << EOF > /etc/cron.d/download-ecrimelabs
+# /etc/cron.d/download-ecrimelabs
 #
 # crontab entry to update eCrimeLabs IDS rules
 
@@ -31,7 +31,7 @@ SHELL=/bin/sh
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 
 #m 		h 	dom 	mon 	dow 	user  command
-00 		*/2 	* 		* 		*   	root	/usr/sbin/download-eCrimeLabs > /dev/null 2>&1
+00 		*/2 	* 		* 		*   	root	/usr/sbin/download-ecrimelabs > /dev/null 2>&1
 EOF
 fi
 

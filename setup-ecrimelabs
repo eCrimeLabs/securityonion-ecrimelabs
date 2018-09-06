@@ -29,11 +29,11 @@ echo "To confirm, we will configure the following:"
 echo
 
 if [ $nids_rules = "YES" ]; then
-echo "NIDS Rules: /etc/nsm/rules/local.eCrimeLabs.rules"
+echo "NIDS Rules: /etc/nsm/rules/local.ecrimelabs.rules"
 fi
 
 if [ $intel = "YES" ]; then
-echo "Bro Intel: /opt/bro/share/bro/intel/eCrimeLabs-intel.dat"
+echo "Bro Intel: /opt/bro/share/bro/intel/ecrimelabs-intel.dat"
 fi
 
 echo
@@ -47,9 +47,9 @@ if [ $confirm != "YES" ]; then
 	exit 0
 else
 
-	eCrimeLabsCFG="/etc/eCrimeLabs//eCrimeLabscfg"
-	mkdir -p /etc/eCrimeLabs
-        cp securityonion-eCrimeLabs/eCrimeLabscfg $eCrimeLabsCFG
+	eCrimeLabsCFG="/etc/ecrimelabs/ecrimelabscfg"
+	mkdir -p /etc/ecrimelabs
+        cp securityonion-ecrimelabs/ecrimelabscfg $eCrimeLabsCFG
 
 	echo "Configuring..."
 
@@ -58,15 +58,15 @@ else
 	sed -i "s/^NIDS_RULES.*/NIDS_RULES=\"${nids_rules,,}\"/" $eCrimeLabsCFG
 
 	# Copy eCrimeLabs scripts into place
-	cp securityonion-eCrimeLabs/download-eCrimeLabs /usr/sbin/download-eCrimeLabs
-	cp securityonion-eCrimeLabs/configure-eCrimeLabs /usr/sbin/configure-eCrimeLabs
+	cp securityonion-ecrimelabs/download-ecrimelabs /usr/sbin/download-ecrimelabs
+	cp securityonion-ecrimelabs/configure-ecrimelabs /usr/sbin/configure-ecrimelabs
 
 	# Set perms
-	chmod +x /usr/sbin/download-eCrimeLabs
-        chmod +x /usr/sbin/configure-eCrimeLabs
+	chmod +x /usr/sbin/download-ecrimelabs
+        chmod +x /usr/sbin/configure-ecrimelabs
 
 	echo
 	# Run configuration script
-	/usr/sbin/configure-eCrimeLabs
+	/usr/sbin/configure-ecrimelabs
 	echo
 fi
