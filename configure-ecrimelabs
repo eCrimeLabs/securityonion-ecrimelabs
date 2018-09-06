@@ -38,5 +38,6 @@ fi
 echo "If manually running this script, ensure that /usr/sbin/rule-update is run afterwards."
 
 echo ""
+echo "When you have configured the /etc/ecrimelabs/ecrimelabscfg run sudo /usr/sbin/download-ecrimelabs"
 echo "That's all folks!"
 echo ""
