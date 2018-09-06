@@ -17,7 +17,7 @@ Update rules (if desired):
 sudo rule-update
 
 Confirm rules in place:
-cat /etc/nsm/rules/${FEED_TYPE}.ecrimelabs.rules
+cat /etc/nsm/rules/alert.ecrimelabs.rules
 cat /etc/nsm/rules/incident.ecrimelabs.rules
 
 Confirm Bro Intel in place:
