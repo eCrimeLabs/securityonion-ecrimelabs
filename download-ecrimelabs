@@ -1,9 +1,9 @@
 #!/bin/bash
 source /etc/eCrimeLabs/eCrimeLabscfg
 
-for i in $BROKER $APIKEY $RULE_PATH; do
+for i in ${BROKER} ${APIKEY} ${RULE_PATH_INCIDENT} ${RULE_PATH_FEED} ${FEED_AGE} ${FEED_TYPE} ${NIDS_RULES} ${INTEL} ${INTEL_PATH}; do
 	if [ $i == "" ]; then
-		echo "${i} is null!""
+		echo "${i} is null!"
 		exit 0
 	fi
 done
@@ -23,19 +23,19 @@ else
 fi
 
 # if Bro Intel enabled, then get Bro Intel
-if [[ $INTEL == "YES" ]];then
-        wget -q --header="Authorization: $APIKEY"  $PROTOCOL://$IP/attributes/bro/download/all -O $INTEL_PATH
-	LOAD_BRO="/opt/bro/share/bro/intel/__load__.bro"
-	if grep -q eCrimeLabs $LOAD_BRO; then
-        	# Already appended to list of intel files
-        	echo "Already configured!"
-        	:
-	else
-        	# Add eCrimeLabs-intel to list of intel files
-        	sed -i 's#.*"/opt/bro/share/bro/intel/intel.dat"#        "/opt/bro/share/bro/intel/intel.dat",#' $LOAD_BRO
-        	sed -i '/.*intel.dat",/a \ \ \ \ \ \ \ \ "\/opt\/bro\/share\/bro\/intel\/eCrimeLabs-intel.dat\"' $LOAD_BRO
-	fi
-	nsm_sensor_ps-restart --only-bro
-else
-        :
-fi
+#if [[ $INTEL == "YES" ]];then
+#        wget -q --header="Authorization: $APIKEY"  $PROTOCOL://$IP/attributes/bro/download/all -O $INTEL_PATH
+#	LOAD_BRO="/opt/bro/share/bro/intel/__load__.bro"
+#	if grep -q eCrimeLabs $LOAD_BRO; then
+#        	# Already appended to list of intel files
+#        	echo "Already configured!"
+#        	:
+#	else
+#        	# Add eCrimeLabs-intel to list of intel files
+#        	sed -i 's#.*"/opt/bro/share/bro/intel/intel.dat"#        "/opt/bro/share/bro/intel/intel.dat",#' $LOAD_BRO
+#        	sed -i '/.*intel.dat",/a \ \ \ \ \ \ \ \ "\/opt\/bro\/share\/bro\/intel\/eCrimeLabs-intel.dat\"' $LOAD_BRO
+#	fi
+#	nsm_sensor_ps-restart --only-bro
+#else
+#      :
+#fi

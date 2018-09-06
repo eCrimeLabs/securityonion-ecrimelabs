@@ -12,10 +12,10 @@ echo ""
 
 PP_CONF="/etc/nsm/pulledpork/pulledpork.conf"
 
-if [ "$ENGINE" = "snort" ]; then
-	sed -i "s|^local_rules.*|local_rules=/etc/nsm/rules/local.rules,${RULE_PATH_FEED},${RULE_PATH_INCIDENT}|" $PP_CONF
-elif [ "$ENGINE" = "suricata" ];then
-	sed -i "s|^local_rules.*|local_rules=/etc/nsm/rules/local.rules,/etc/nsm/rules/decoder-events.rules,/etc/nsm/rules/stream-events.rules,/etc/nsm/rules/http-events.rules,/etc/nsm/rules/smtp-events.rules,${RULE_PATH_FEED},${RULE_PATH_INCIDENT}|" $PP_CONF
+if [ "${ENGINE}" = "snort" ]; then
+	sed -i "s|^local_rules.*|local_rules=/etc/nsm/rules/local.rules,${RULE_PATH_FEED},${RULE_PATH_INCIDENT}|" ${PP_CONF}
+elif [ "${ENGINE}" = "suricata" ];then
+	sed -i "s|^local_rules.*|local_rules=/etc/nsm/rules/local.rules,/etc/nsm/rules/decoder-events.rules,/etc/nsm/rules/stream-events.rules,/etc/nsm/rules/http-events.rules,/etc/nsm/rules/smtp-events.rules,${RULE_PATH_FEED},${RULE_PATH_INCIDENT}|" ${PP_CONF}
 fi
 
 if [ -f /etc/cron.d/download-eCrimeLabs ]; then
