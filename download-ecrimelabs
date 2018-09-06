@@ -1,7 +1,7 @@
 #!/bin/bash
 source /etc/ecrimelabs/ecrimelabscfg
 
-for i in ${BROKER} ${APIKEY} ${RULE_PATH_INCIDENT} ${RULE_PATH_FEED} ${FEED_AGE} ${FEED_TYPE} ${NIDS_RULES} ${INTEL} ${INTEL_PATH}; do
+for i in ${BROKER} ${APIKEY} ${RULE_PATH_INCIDENT} ${RULE_PATH_FEED} ${FEED_AGE} ${FEED_TYPE}; do
 	if [ $i == "" ]; then
 		echo "${i} is null!"
 		exit 0
@@ -11,19 +11,21 @@ done
 ENGINE=`grep ENGINE /etc/nsm/securityonion.conf | cut -d= -f2`
 
 # if NIDS_RULES enabled, then get NIDS rules
-if [[ $NIDS_RULES == "YES" ]];then
+if [[ $NIDS_RULES == "yes" ]];then
 	# get NIDS rules
-  wget -q ${BROKER}/apiv1/incident/${ENGINE}/${FEED_AGE}/${APIKEY}}/txt -O ${RULE_PATH_INCIDENT}
-	wget -q ${BROKER}/apiv1/${FEED_TYPE}/${ENGINE}/${FEED_AGE}/${APIKEY}}/txt -O ${RULE_PATH_FEED}
+  wget -q ${BROKER}/apiv1/incident/${ENGINE}/${FEED_AGE}/${APIKEY}/txt -O ${RULE_PATH_INCIDENT}
+	wget -q ${BROKER}/apiv1/${FEED_TYPE}/${ENGINE}/${FEED_AGE}/${APIKEY}/txt -O ${RULE_PATH_FEED}
 	# Set correct perms
-	chown sguil:sguil $RULE_PATH
-	chmod 644 $RULE_PATH
+	chown sguil:sguil ${RULE_PATH_INCIDENT}
+	chmod 644 ${RULE_PATH_INCIDENT}
+	chown sguil:sguil ${RULE_PATH_FEED}
+	chmod 644 ${RULE_PATH_FEED}
 else
 	:
 fi
 
 # if Bro Intel enabled, then get Bro Intel
-if [[ $INTEL == "YES" ]];then
+if [[ $INTEL == "yes" ]];then
         wget -q ${BROKER}/feed/bro/${APIKEY} -O $INTEL_PATH
 	LOAD_BRO="/opt/bro/share/bro/intel/__load__.bro"
 	if grep -q ecrimelabs $LOAD_BRO; then
